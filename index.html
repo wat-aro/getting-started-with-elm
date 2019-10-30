@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <meta charset="utf-8">
+
+<title>Elmことはじめ</title>
+
+<meta name="description" content="">
+<meta name="author" content="wat-aro">
+<meta name="generator" content="reveal-ck 3.9.2">
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+<!-- Code syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<link rel="stylesheet" href="css/reveal-ck.css">
+
+
+<!-- Printing and PDF exports -->
+<script>
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+
+  </head>
+
+  <body>
+    <div class="reveal">
+  <!-- Any section element inside of this container is displayed as a slide -->
+  <div class="slides">
+    <section>
+
+<h1>
+<code>Elm</code> ことはじめ</h1>
+
+</section>
+<section>
+
+<h2>自己紹介</h2>
+
+<ul>
+  <li>wat-aro</li>
+  <li>10%の時間ではElmでフロントエンドをやっていました</li>
+  <li>関数型が好きです</li>
+</ul>
+
+</section>
+<section>
+
+<h2>おしながき</h2>
+
+<ul>
+  <li>Elm とは</li>
+  <li>文法</li>
+  <li>TEA</li>
+  <li>まとめ</li>
+</ul>
+
+</section>
+<section>
+<section>
+
+<h2>Elm とは</h2>
+
+<ul>
+  <li>静的型付け Alt JS</li>
+  <li>A delightfull language</li>
+  <li>No Runtime Exception</li>
+  <li>Great Peerformance</li>
+  <li>Small Assets</li>
+</ul>
+
+</section>
+<section>
+
+<h3>静的型付けの Alt JS</h3>
+
+<p>Haskell like な見た目</p>
+
+<pre><code class="language-elm">map : (a -&gt; b) -&gt; List a -&gt; List b
+map f list =
+  case list of
+    [] -&gt; []
+    (x :: xs) -&gt; f x :: (map f xs)
+</code></pre>
+
+</section>
+<section>
+
+<h3>静的型付けの Alt JS</h3>
+
+<p>強力な型推論と親切なエラーメッセージ</p>
+
+<pre><code class="language-elm">&gt; 1 + "1"
+-- TYPE MISMATCH ----------------------------------------------------------- elm
+
+I cannot do addition with String values like this one:
+
+4|   1 + "1"
+         ^^^
+The (+) operator only works with Int and Float values.
+
+Hint: Switch to the (++) operator to append strings!
+</code></pre>
+
+</section>
+<section>
+
+<h3>A delightful language</h3>
+
+<p>公式サイトが言ってます</p>
+
+<p><a href="https://gyazo.com/772c9e8c416140a595a7ca586a66a159"><img src="https://i.gyazo.com/772c9e8c416140a595a7ca586a66a159.png" alt="Image from Gyazo"></a></p>
+
+</section>
+<section>
+
+<h3>Great Peerformance</h3>
+
+<p><a href="https://gyazo.com/50ecbb1475d7b22a2495ebdc087d59af"><img src="https://i.gyazo.com/50ecbb1475d7b22a2495ebdc087d59af.png" alt="Image from Gyazo"></a></p>
+
+</section>
+<section>
+
+<h3>Small Assets</h3>
+
+<p><a href="https://gyazo.com/7e580ab002610cd302a89046d9e28e0a"><img src="https://i.gyazo.com/7e580ab002610cd302a89046d9e28e0a.png" alt="Image from Gyazo"></a></p>
+
+</section>
+</section>
+
+<section>
+<section>
+
+<h2>文法</h2>
+
+<ul>
+  <li>デフォルトカリー化</li>
+  <li>Haskell-like 型定義</li>
+  <li>パターンマッチ</li>
+</ul>
+
+</section>
+<section>
+
+<h3>デフォルトカリー化</h3>
+
+<p>MLやHaskellのようにデフォルトでカリー化されている</p>
+
+<pre><code class="language-elm">add : Int -&gt; Int -&gt; Int
+add x y = x + y
+
+add 2 3  -- 5
+
+add2 : Int -&gt; Int
+add2 = add 2
+
+add2 3 -- 5
+</code></pre>
+
+</section>
+<section>
+
+<h3>Haskell-like 型定義</h3>
+
+<ul>
+  <li>Haskell likeな型定義</li>
+  <li>代数的データ型</li>
+  <li>型クラスはない</li>
+</ul>
+
+<pre><code class="language-elm">type Maybe a
+  = Just a
+  | Nothing
+</code></pre>
+
+<p>型アノテーションのコロンは一つ</p>
+
+<pre><code class="language-elm">42 : Int
+"Hello Elm" : String
+</code></pre>
+
+</section>
+<section>
+
+<h3>パターンマッチ</h3>
+
+<ul>
+  <li>型定義に沿った形でパターンマッチができる</li>
+  <li>網羅性検査もされるので漏れが出ない</li>
+  <li>漏れているとコンパイルエラー</li>
+</ul>
+
+<pre><code class="language-elm">type Maybe a
+  = Just a
+  | Nothing
+</code></pre>
+
+<pre><code class="language-elm">map : (a -&gt; b) -&gt; Maybe a -&gt; Maybe b
+map f x = case x of
+  Just a -&gt; Maybe (f a)
+  Nothing -&gt; Nothing
+
+</code></pre>
+
+</section>
+</section>
+
+<section>
+<section>
+
+<h2>The Elm Architecture(TEA)</h2>
+
+<ul>
+  <li>
+<code>view</code>は<code>model</code>を受け取って<code>HTML</code>を作成する</li>
+  <li>
+<code>HTML</code>から<code>msg</code>を投げ、<code>update</code>が現在の<code>model</code>と<code>msg</code>から新しい<code>model</code>を作成する</li>
+  <li>新しい<code>model</code>から再度<code>HTML</code>を作成する</li>
+</ul>
+
+<pre><code class="language-elm">sandbox :
+    { init : model
+    , view : model -&gt; Html msg
+    , update : msg -&gt; model -&gt; model
+    }
+    -&gt; Program () model msg
+</code></pre>
+
+</section>
+<section>
+
+<h3>sandbox のライフサイクル</h3>
+
+<p><img src="https://guide.elm-lang.org/effects/diagrams/sandbox.svg" alt="Browser.sandbox"></p>
+
+</section>
+<section>
+
+<h3>カヌンターアプリの例</h3>
+
+<ul>
+  <li>
+<code>+</code> ボタンと <code>-</code> ボタンがあるカウンター</li>
+  <li><a href="https://elm-lang.org/examples/buttons">https://elm-lang.org/examples/buttons</a></li>
+  <li>モデルの初期値は0</li>
+  <li>update と view はそれぞれの名前の関数</li>
+</ul>
+
+<pre><code class="language-elm">sandbox :
+    { init : model
+    , view : model -&gt; Html msg
+    , update : msg -&gt; model -&gt; model
+    }
+    -&gt; Program () model msg
+
+main : Program () Int Msg
+main =
+  Browser.sandbox { init = 0, update = update, view = view }
+</code></pre>
+
+</section>
+<section>
+
+<h3>まずはメッセージの型定義から</h3>
+
+<ul>
+  <li>Msg は Increment と Decrement の二つ</li>
+  <li>Increment が来たら model を +1 する</li>
+  <li>Decrement が来たら model を -1 する</li>
+  <li>RunTime System が update の返り値を受け取り現在のモデルを更新する</li>
+</ul>
+
+<pre><code class="language-elm">type Msg = Increment | Decrement
+
+update : Msg -&gt; Int -&gt; Int
+update msg model =
+  case msg of
+    Increment -&gt;
+      model + 1
+
+    Decrement -&gt;
+      model - 1
+</code></pre>
+
+</section>
+<section>
+
+<h3>描画に使う関数</h3>
+
+<ul>
+  <li>HTML タグ のタグも関数で定義されている</li>
+  <li>div の第一引数は Attribute msg のリスト</li>
+  <li>div の第二引数は Html msg のリスト</li>
+  <li>onClick の引数に msg を渡すと、クリックされた時にそのメッセージを投げる</li>
+  <li>text は文字列の描画用の関数</li>
+  <li>型変数になっている部分は型推論で解決される</li>
+</ul>
+
+<pre><code class="language-elm">div : List (Attribute msg) -&gt; List (Html msg) -&gt; Html msg
+button : List (Attribute msg) -&gt; List (Html msg) -&gt; Html msg
+onClick : msg -&gt; Attribute msg
+text : String -&gt; Html msg
+</code></pre>
+
+</section>
+<section>
+
+<h3>描画部分</h3>
+
+<ul>
+  <li>さっきの関数を使ってviewを構成する</li>
+</ul>
+
+<pre><code class="language-elm">view : Int -&gt; Html Msg
+view model =
+  div []
+    [ button [ onClick Decrement ] [ text "-" ]
+    , div [] [ text (String.fromInt model) ]
+    , button [ onClick Increment ] [ text "+" ]
+    ]
+</code></pre>
+
+</section>
+<section>
+
+<h3>副作用を扱う例(Cat gifs)</h3>
+
+<ul>
+  <li>猫のGIF画像をランダムに取得し描画するアプリ</li>
+  <li><a href="https://elm-lang.org/examples/cat-gifs">https://elm-lang.org/examples/cat-gifs</a></li>
+  <li>
+<code>element</code> を使う</li>
+</ul>
+
+</section>
+<section>
+
+<h3>Browser.element</h3>
+
+<ul>
+  <li>
+<code>view</code>は変わらない</li>
+  <li>
+<code>update</code>の返り値が <code>model</code>から<code>(model, Cmd msg)</code>に変更</li>
+  <li>外部からのイベントを扱う <code>subscriptions</code> が追加(今回は扱いません)</li>
+</ul>
+
+<pre><code class="language-elm">element :
+    { init : flags -&gt; ( model, Cmd msg )
+    , view : model -&gt; Html msg
+    , update : msg -&gt; model -&gt; ( model, Cmd msg )
+    , subscriptions : model -&gt; Sub msg
+    }
+    -&gt; Program flags model msg
+</code></pre>
+
+</section>
+<section>
+
+<h3>Cmd とは</h3>
+
+<ul>
+  <li>主に副作用を扱う(e.g. HTTPリクエスト, 乱数生成, 現在時の取得)</li>
+  <li>実行した結果 <code>Cmd msg</code> を返し、その<code>msg</code>が <code>Runtime System</code> によって <code>update</code>に渡される</li>
+</ul>
+
+</section>
+<section>
+
+<h3>副作用を扱った場合のライフサイクル</h3>
+
+<p><img src="https://guide.elm-lang.org/effects/diagrams/element.svg" alt="Browser.element"></p>
+
+</section>
+<section>
+
+<h3>Cat Gifs の Msg</h3>
+
+<ul>
+  <li>再度猫Gifを取得する MorePlease</li>
+  <li>猫Gifの取得した結果を表す GotGif (Result Http.Error String)</li>
+  <li>Result error value 型は成功・失敗を表すことが出来る</li>
+</ul>
+
+<pre><code class="language-elm">type Msg
+  = MorePlease
+  | GotGif (Result Http.Error String)
+</code></pre>
+
+</section>
+<section>
+
+<h3>Cat Gif の Model</h3>
+
+<ul>
+  <li>猫画像取に失敗したら Failure</li>
+  <li>取得中は Loading</li>
+  <li>取得に成功したら Success に 猫Gifの URL を文字列で持つ</li>
+</ul>
+
+<pre><code class="language-elm">type Model
+  = Failure
+  | Loading
+  | Success String
+</code></pre>
+
+</section>
+<section>
+
+<h3>Cat Gif の Initialize phase</h3>
+
+<ul>
+  <li>モデルの初期値は Loading</li>
+  <li>getRandomCatGif で猫Gifを取得する</li>
+  <li>Http.get の返り値の型が Cmd msg なので Cmd を強制される</li>
+</ul>
+
+<pre><code class="language-elm">init : () -&gt; (Model, Cmd Msg)
+init _ =
+  (Loading, getRandomCatGif)
+
+get : { url : String, expect : Expect msg } -&gt; Cmd msg
+
+getRandomCatGif : Cmd Msg
+getRandomCatGif =
+  Http.get
+    { url = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&amp;tag=cat"
+    , expect = Http.expectJson GotGif gifDecoder
+    }
+</code></pre>
+
+</section>
+<section>
+
+<h3>Cat Gif の更新 phase</h3>
+
+<ul>
+  <li>MorePlease メッセージならLoading状態にして猫Gifを取得しにいく</li>
+  <li>取得した結果、成功していればモデルにURLを入れて描画、失敗していればFailure画面に</li>
+</ul>
+
+<pre><code class="language-elm">update : Msg -&gt; Model -&gt; (Model, Cmd Msg)
+update msg model =
+  case msg of
+    MorePlease -&gt;
+      (Loading, getRandomCatGif)
+
+    GotGif result -&gt;
+      case result of
+        Ok url -&gt;
+          (Success url, Cmd.none)
+
+        Err _ -&gt;
+          (Failure, Cmd.none)
+</code></pre>
+
+</section>
+<section>
+
+<h3>Cat Gif の描画</h3>
+
+<ul>
+  <li>view でもパターンマッチで状態を網羅して描画しているかが検査できる</li>
+</ul>
+
+<pre><code class="language-elm">view : Model -&gt; Html Msg
+view model =
+  div []
+    [ h2 [] [ text "Random Cats" ]
+    , viewGif model
+    ]
+
+viewGif : Model -&gt; Html Msg
+viewGif model =
+  case model of
+    Failure -&gt;
+      div []
+        [ text "I could not load a random cat for some reason. "
+        , button [ onClick MorePlease ] [ text "Try Again!" ]
+        ]
+
+    Loading -&gt;
+      text "Loading..."
+
+    Success url -&gt;
+      div []
+        [ button [ onClick MorePlease, style "display" "block" ] [ text "More Please!" ]
+        , img [ src url ] []
+        ]
+</code></pre>
+
+</section>
+<section>
+
+<h3>TEA</h3>
+
+<ul>
+  <li>副作用を扱わない場合 model, update, message, view によって構成される</li>
+  <li>view から message を投げ、その message に合わせて model を更新する</li>
+  <li>副作用を扱う場合は update から副作用(Cmd)を実行し、Cmd からまた message を投げ update で受け取る</li>
+  <li>今回は見ていないけれど、外部からの入力(時間によって発するイベントやwebsocketのイベントなど**はsubscriptionで扱う</li>
+</ul>
+
+</section>
+</section>
+<section>
+
+<h2>まとめ</h2>
+
+<ul>
+  <li>Elm の基本的なところを紹介しました</li>
+  <li>TEA を紹介しました</li>
+  <li>簡潔な型定義とパターンマッチで安全にフロントエンドが開発できるよ！</li>
+</ul>
+
+</section>
+
+  </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+
+<script>
+  (function() {
+  function extend( a, b ) {
+    for(var i in b) {
+      a[i] = b[i];
+    }
+  }
+  var baseOptions = {
+    transition: 'default',
+
+    dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+    ]
+  };
+
+  
+
+  var configOptions = {"controls":true,"progress":true,"history":true,"center":true}
+  var initializeOptions = {};
+  extend(initializeOptions, baseOptions);
+  extend(initializeOptions, configOptions);
+  Reveal.initialize(initializeOptions);
+})();
+
+</script>
+
+  </body>
+</html>
